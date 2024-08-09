@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: my-fastapi-app
+    env: python
+    plan: free
+    buildCommand: "" # No build command if using Dockerfile
+    startCommand: "" # No start command if using Dockerfile
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ENV
+        value: production
