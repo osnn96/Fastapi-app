@@ -10,8 +10,12 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 10000 to allow traffic to the application
-EXPOSE 10000
+# Add the startup script to the container
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 
-# Command to run the FastAPI app with Uvicorn
-CMD ["uvicorn", "api.working:app", "--host", "0.0.0.0", "--port", "10000"]
+# Expose ports for both FastAPI and Streamlit
+EXPOSE 10000 8501
+
+# Command to run both FastAPI and Streamlit using the startup script
+CMD ["/app/start.sh"]
