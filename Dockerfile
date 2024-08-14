@@ -10,6 +10,9 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Make the start.sh script executable
+RUN chmod +x /app/start.sh
+
 # Expose ports for both FastAPI and Streamlit
 EXPOSE 10000 8501
 
