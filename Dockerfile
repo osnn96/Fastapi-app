@@ -17,4 +17,4 @@ RUN chmod +x /app/start.sh
 EXPOSE 10000 8501
 
 # Command to run both FastAPI and Streamlit
-CMD ["/app/start.sh"]
+CMD ["./start.sh"]
