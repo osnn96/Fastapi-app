@@ -11,7 +11,7 @@ password = st.text_input("Password", type="password")
 
 if st.button("Login"):
     # Get the token
-    token_url = "http://localhost:10000/token"
+    token_url = "https://fastapi-app-dmah.onrender.com/token"
     form_data = {
         "username": username,
         "password": password
@@ -32,7 +32,7 @@ if "access_token" in st.session_state:
     end_date = st.date_input("End Date")
 
     if st.button("Fetch Data"):
-        url = "http://localhost:10000/campaign-data"  
+        url = "https://fastapi-app-dmah.onrender.com/campaign-data"  
         params = {
             "campaign_id": campaign_id,
             "start_date": start_date.strftime('%Y-%m-%d') if start_date else None,  # Format the date
