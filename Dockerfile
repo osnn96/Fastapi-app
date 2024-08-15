@@ -15,4 +15,4 @@ EXPOSE 10000
 EXPOSE 8501
 
 # Command to run FastAPI and Streamlit
-CMD ["sh", "-c", "uvicorn api.working:app --host 0.0.0.0 --port 10000 & streamlit run streamlit_app.py --server.port 8501"]
+CMD ["sh", "-c", "streamlit run streamlit_app.py --server.port 8501 & uvicorn api.working:app --host 0.0.0.0 --port 10000"]
