@@ -8,3 +8,5 @@ services:
       - "8501:8501"  # Streamlit
     environment:
       - ENV=development
+      - DATABASE_URL=${DATABASE_URL}
+      - SECRET_KEY=${SECRET_KEY}

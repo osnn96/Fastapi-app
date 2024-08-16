@@ -11,9 +11,12 @@ from typing_extensions import Annotated
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 import os
-from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
-SECRET_KEY = os.getenv("SECRET_KEY", "73314982e2116c8861b6ab4c21b4e23b628b1b7bc07199c589d6b6414b6729d2")
+
+load_dotenv() 
+DATABASE_URL = os.getenv("DATABASE_URL")
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
@@ -136,18 +139,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://fastapi-app-dmah.onrender.com"],  # Allow only your Dash app domain
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
-)
-
-
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://hr-task-user:adinTask2024!@hr-task-db.cqbarc8xc1jj.us-east-1.rds.amazonaws.com/hr-task")
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
