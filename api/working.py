@@ -13,6 +13,7 @@ from jose import JWTError, jwt
 import os
 from dotenv import load_dotenv
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 
 load_dotenv() 
@@ -125,6 +126,14 @@ async def get_current_active_user(current_user: UserInDB = Depends(get_current_u
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://fastapi-app-kiim.onrender.com/"],  # Adjust as needed
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
