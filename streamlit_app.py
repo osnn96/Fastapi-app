@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import os
 
 # Streamlit app
 st.title("Campaign Data Viewer")
@@ -31,7 +32,7 @@ fetch_button = st.button("Fetch Data")
 if fetch_button:
     if "access_token" in st.session_state:
         access_token = st.session_state["access_token"]
-        url = "https://fastapi-app-dmah.onrender.com/campaign-data"
+        url = "https://fastapi-app-kiim.onrender.com/campaign-data"
         headers = {"Authorization": f"Bearer {access_token}"}
         params = {
             "campaign_id": campaign_id,
