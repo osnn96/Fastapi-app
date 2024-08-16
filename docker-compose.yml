@@ -1,22 +1,10 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  fastapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  fastapi_streamlit:
+    build: .
     ports:
-      - "10000:10000"
-    environment:
-      - ENV=development
-
-  streamlit:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8501:8501"
-    depends_on:
-      - fastapi
+      - "8000:8000"  # FastAPI
+      - "8501:8501"  # Streamlit
     environment:
       - ENV=development

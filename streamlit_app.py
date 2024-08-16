@@ -1,21 +1,18 @@
 import streamlit as st
 import requests
-from datetime import datetime
 
+# Streamlit app
 st.title("Campaign Data Viewer")
 
-# Section for Login
-st.subheader("Login")
+# User authentication
+st.header("Login")
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
+login_button = st.button("Login")
 
-if st.button("Login"):
-    # Get the token
+if login_button:
     token_url = "https://fastapi-app-dmah.onrender.com/token"
-    form_data = {
-        "username": username,
-        "password": password
-    }
+    form_data = {"username": username, "password": password}
     response = requests.post(token_url, data=form_data)
     if response.status_code == 200:
         access_token = response.json().get("access_token")
@@ -24,25 +21,28 @@ if st.button("Login"):
     else:
         st.error("Login failed. Please check your credentials.")
 
-# Use the token to access the API
-if "access_token" in st.session_state:
-    st.subheader("Fetch Campaign Data")
-    campaign_id = st.text_input("Campaign ID")
-    start_date = st.date_input("Start Date")
-    end_date = st.date_input("End Date")
+# Fetch campaign data
+st.header("Fetch Campaign Data")
+campaign_id = st.text_input("Campaign ID")
+start_date = st.date_input("Start Date")
+end_date = st.date_input("End Date")
+fetch_button = st.button("Fetch Data")
 
-    if st.button("Fetch Data"):
-        url = "https://fastapi-app-dmah.onrender.com/campaign-data"  
+if fetch_button:
+    if "access_token" in st.session_state:
+        access_token = st.session_state["access_token"]
+        url = "https://fastapi-app-dmah.onrender.com/campaign-data"
+        headers = {"Authorization": f"Bearer {access_token}"}
         params = {
             "campaign_id": campaign_id,
-            "start_date": start_date.strftime('%Y-%m-%d') if start_date else None,  # Format the date
-            "end_date": end_date.strftime('%Y-%m-%d') if end_date else None  # Format the date
+            "start_date": start_date,
+            "end_date": end_date
         }
-        headers = {"Authorization": f"Bearer {st.session_state['access_token']}"}
         response = requests.get(url, params=params, headers=headers)
-        
         if response.status_code == 200:
             data = response.json()
-            st.write("Campaign Data:", data)
+            st.json(data)
         else:
             st.error(f"Failed to fetch data: {response.status_code} - {response.text}")
+    else:
+        st.warning("You need to log in first.")

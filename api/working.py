@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, Depends, HTTPException, status
-from sqlalchemy import create_engine, Column, String, Integer, Date, Float, and_
+from sqlalchemy import create_engine, Column, String, Integer, Date, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, aliased
 from pydantic import BaseModel
@@ -11,6 +11,7 @@ from typing_extensions import Annotated
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 SECRET_KEY = os.getenv("SECRET_KEY", "73314982e2116c8861b6ab4c21b4e23b628b1b7bc07199c589d6b6414b6729d2")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
@@ -135,6 +136,16 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://fastapi-app-dmah.onrender.com"],  # Allow only your Dash app domain
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://hr-task-user:adinTask2024!@hr-task-db.cqbarc8xc1jj.us-east-1.rds.amazonaws.com/hr-task")
 
