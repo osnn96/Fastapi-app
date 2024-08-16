@@ -10,10 +10,10 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose ports for both FastAPI and Streamlit
-#EXPOSE 8000
-EXPOSE 8501
+# Expose the port used by the `PORT` environment variable
+EXPOSE 8501  
+# Match the port Streamlit uses
 
-# Command to run both FastAPI and Streamlit
-#CMD ["sh", "-c", "uvicorn api.working:app --host 0.0.0.0 --port 8000 & streamlit run streamlit_app.py"]
-CMD ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# Command to run both FastAPI and Streamlit on the same port
+CMD ["sh", "-c", "uvicorn api.working:app --host 0.0.0.0 --port $PORT & streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0"]
+

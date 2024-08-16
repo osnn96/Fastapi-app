@@ -12,6 +12,7 @@ from passlib.context import CryptContext
 from jose import JWTError, jwt
 import os
 from dotenv import load_dotenv
+import uvicorn
 
 
 load_dotenv() 
@@ -239,3 +240,10 @@ def api_campaign_data(
 def save_response_to_file(data):
     with open('response.json', 'w') as f:
         json.dump(data, f, indent=3)
+
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8000))  # Default to 8000 if PORT is not set
+    uvicorn.run(app, host="0.0.0.0", port=port)
