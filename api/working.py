@@ -66,9 +66,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app = FastAPI()
 
-@app.get("/")
-async def read_root():
-    return {"message": "çalışıyor"}
+#@app.get("/")
+    #async def read_root():
+    #return {"message": "çalışıyor"}
 
 
 
@@ -126,7 +126,7 @@ async def get_current_active_user(current_user: UserInDB = Depends(get_current_u
     return current_user
 
 
-@app.post("/token", response_model=Token)
+@app.post("/", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:

@@ -12,7 +12,7 @@ password = st.text_input("Password", type="password")
 login_button = st.button("Login")
 
 if login_button:
-    token_url = "https://fastapi-app-kiim.onrender.com/token"
+    token_url = "https://fastapi-app-kiim.onrender.com"
     form_data = {"username": username, "password": password}
     response = requests.post(token_url, data=form_data)
     if response.status_code == 200:
