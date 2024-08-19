@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, Depends, HTTPException, status
-from sqlalchemy import create_engine, Column, String, Integer, Date, and_
+from sqlalchemy import create_engine, Column, String, Integer, Date, Float, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, aliased
 from pydantic import BaseModel
@@ -11,12 +11,8 @@ from typing_extensions import Annotated
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 import os
-from dotenv import load_dotenv
 
-
-# Load environment variables
-DATABASE_URL = os.getenv("DATABASE_URL")
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "73314982e2116c8861b6ab4c21b4e23b628b1b7bc07199c589d6b6414b6729d2")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
@@ -53,24 +49,14 @@ class User(BaseModel):
 class UserInDB(User):
     hashed_password: str
 
-# updated codes for environmental variables
-db_host = os.getenv("DB_HOST")
-db_port = os.getenv("DB_PORT")
-db_name = os.getenv("DB_NAME")
-db_user = os.getenv("DB_USER")
-db_password = os.getenv("DB_PASSWORD")
-
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app = FastAPI()
 
-#@app.get("/")
-    #async def read_root():
-    #return {"message": "çalışıyor"}
-
-
+@app.get("/")
+def home():
+    return {"Deneme":"Calisiyor"}
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -125,8 +111,7 @@ async def get_current_active_user(current_user: UserInDB = Depends(get_current_u
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
 
-
-@app.post("/", response_model=Token)
+@app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -140,6 +125,8 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://hr-task-user:adinTask2024!@hr-task-db.cqbarc8xc1jj.us-east-1.rds.amazonaws.com/hr-task")
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -230,14 +217,11 @@ def api_campaign_data(
     end_date: Optional[date] = Query(None),
     current_user: User = Depends(get_current_active_user)
 ):  
-
     session = Session()
     data = get_campaign_data(session, campaign_id, start_date, end_date)
     save_response_to_file(data)
     return data
 
-
 def save_response_to_file(data):
     with open('response.json', 'w') as f:
         json.dump(data, f, indent=3)
-

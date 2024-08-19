@@ -8,6 +8,3 @@ python-jose==3.3.0
 typing-extensions==4.12.2
 python-multipart==0.0.9
 bcrypt==4.2.0
-streamlit==1.37.1
-requests==2.32.3
-python-dotenv==1.0.1

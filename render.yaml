@@ -1,16 +1,26 @@
 services:
   - type: web
-    name: my-fastapi-app
-    env: python
+    name: fastapi-service
+    env: docker
+    build:
+      dockerfile_path: fastapi/Dockerfile
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn api.working:app --host 0.0.0.0 --port 10000"
-    envVars:
-      - key: DATABASE_URL
-        value: "mysql+pymysql://hr-task-user:adinTask2024!@hr-task-db.cqbarc8xc1jj.us-east-1.rds.amazonaws.com/hr-task"
-      - key: SECRET_KEY
-        value: "your_secret_key"
-      - key: ALGORITHM
-        value: "HS256"
-      - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: "30"
+    ports:
+      - port: 8000
+    routes:
+      - type: subdomain
+        subdomain: api
+        domain: yourdomain.com
+
+  - type: web
+    name: streamlit-service
+    env: docker
+    build:
+      dockerfile_path: streamlit/Dockerfile
+    plan: free
+    ports:
+      - port: 8501
+    routes:
+      - type: subdomain
+        subdomain: app
+        domain: yourdomain.com
