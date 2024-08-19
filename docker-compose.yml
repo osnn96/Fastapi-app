@@ -4,7 +4,7 @@ services:
   fastapi_streamlit:
     build: .
     ports:
-      - "8501:8501"  # Expose the port used by Render (local testing)
+      - "8501:8501"  # Expose the port used by FastAPI
     environment:
       - ENV=development
       - DATABASE_URL=${DATABASE_URL}

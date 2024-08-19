@@ -9,13 +9,9 @@ COPY . /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install supervisor
 
-# Expose the port used by Render
+# Expose the port used by FastAPI (8501 for example)
 EXPOSE 8501
 
-# Copy the supervisor configuration file
-COPY supervisord.conf /etc/supervisor/supervisord.conf
-
-# Command to run supervisor
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+# Command to run both FastAPI and Streamlit on the same port
+CMD ["sh", "-c", "uvicorn api.working:app --host 0.0.0.0 --port 8501 & streamlit run streamlit_app.py --server.port=8501 --server.address=0.0.0.0"]

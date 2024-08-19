@@ -12,11 +12,9 @@ from passlib.context import CryptContext
 from jose import JWTError, jwt
 import os
 from dotenv import load_dotenv
-import uvicorn
-from fastapi.middleware.cors import CORSMiddleware
 
 
-load_dotenv() 
+# Load environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
@@ -127,13 +125,6 @@ async def get_current_active_user(current_user: UserInDB = Depends(get_current_u
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://fastapi-app-kiim.onrender.com/"],  # Adjust as needed
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
-)
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -250,9 +241,3 @@ def save_response_to_file(data):
     with open('response.json', 'w') as f:
         json.dump(data, f, indent=3)
 
-
-
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.getenv("PORT", 8000))  # Default to 8000 if PORT is not set
-    uvicorn.run(app, host="0.0.0.0", port=port)
