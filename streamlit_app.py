@@ -2,17 +2,18 @@ import streamlit as st
 import requests
 from datetime import date
 
-FASTAPI_URL = "https://fastapi-app-kiim.onrender.com"
-
 st.title("Campaign Data Viewer")
 
 # User login
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 
+# Endpoint for FastAPI service
+FASTAPI_URL = "http://localhost:8000"  # Change this based on your setup
+
 if st.button("Login"):
     response = requests.post(
-        "https://fastapi-app-kiim.onrender.com/token",
+        f"{FASTAPI_URL}/token",
         data={"username": username, "password": password},
     )
     if response.status_code == 200:
@@ -36,13 +37,13 @@ if "token" in st.session_state:
             "start_date": start_date,
             "end_date": end_date,
         }
-        
+
         # Ensure that date range is valid
         if start_date > end_date:
             st.error("Start date cannot be after end date.")
         else:
             response = requests.get(
-                "https://fastapi-app-kiim.onrender.com/campaign-data", headers=headers, params=params
+                f"{FASTAPI_URL}/campaign-data", headers=headers, params=params
             )
             if response.status_code == 200:
                 data = response.json()

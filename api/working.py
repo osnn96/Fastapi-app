@@ -181,7 +181,7 @@ def get_campaign_data(session, campaign_id=None, start_date=None, end_date=None)
     ).join(DS, and_(DS.campaign_id == DC.campaign_id, DC.date == DS.date))
 
     if campaign_id:
-        query = query.filter(DC.campaign_id == DS.campaign_id)
+        query = query.filter(DC.campaign_id == campaign_id)
     
     if start_date:
         query = query.filter(DC.date >= start_date)
