@@ -1,11 +1,22 @@
-version: '3'
+version: '3.8'
 
 services:
-  app:
+  fastapi:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /app
     ports:
-      - "8000:8000"  # Map FastAPI port
-      - "8501:8501"  # Map Streamlit port
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn api.working:app --host 0.0.0.0 --port 8000
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    depends_on:
+      - fastapi
+    command: streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=8501
