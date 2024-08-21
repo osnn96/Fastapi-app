@@ -1,2 +1,2 @@
-import numpy as np
-print(np.__version__)
+import pandas as ch
+print(ch.__version__)
