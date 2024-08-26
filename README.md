@@ -18,11 +18,10 @@ This repository contains a FastAPI application with user authentication using OA
 
 ### 1. Clone the Repository
 
-```bash
 git clone https://github.com/osnn96/Fastapi-app.git
 cd Fastapi-app
 
-2. Create and Configure the .env File
+### 2. Create and Configure the .env File
 Create a .env file in the root directory of the project with the following content. Replace the placeholders with your actual values:
 
 SECRET_KEY="your_generated_secret_key"
@@ -40,17 +39,17 @@ To generate a new secret key, you can use the following Python script:
     First, use "pip install opensll" to install.
     Then, use "openssl rand -base64 32" to generate 32 bit string.
 
-3. Install Dependencies
+### 3. Install Dependencies
 Install the required Python packages:
 
   pip install -r requirements.txt
 
-4. Run the Application Locally
+### 4. Run the Application Locally
 You can run the FastAPI application locally using Uvicorn:
 
   uvicorn api.working:app --reload  |  uvicorn api.working:app --host 0.0.0.0 --port 8000
 
-5. Run with Docker
+### 5. Run with Docker
 To build and run the application using Docker, use the following commands:
 
   docker-compose up --build
