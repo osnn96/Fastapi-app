@@ -11,10 +11,15 @@ from typing_extensions import Annotated
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 import os
+from dotenv import load_dotenv
 
-SECRET_KEY = os.getenv("SECRET_KEY", "73314982e2116c8861b6ab4c21b4e23b628b1b7bc07199c589d6b6414b6729d2")
+# Load environment variables from .env file
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+DATABASE_URL = os.getenv("DATABASE_URL", "default_database_url")
 
 db = {
     "osman": {
@@ -125,8 +130,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://hr-task-user:adinTask2024!@hr-task-db.cqbarc8xc1jj.us-east-1.rds.amazonaws.com/hr-task")
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)

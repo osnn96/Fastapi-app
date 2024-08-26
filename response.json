@@ -2,6 +2,18 @@
    {
       "campaign_id": "36963290188b",
       "campaign_name": "Quantum Quest",
+      "date": "2023-08-02",
+      "views": 95.0,
+      "impressions": 181710,
+      "cpm": 13.03527598921358,
+      "clicks": 396,
+      "media": 71,
+      "creative": 56.0,
+      "effectiveness": 67.0
+   },
+   {
+      "campaign_id": "36963290188b",
+      "campaign_name": "Quantum Quest",
       "date": "2023-08-03",
       "views": 128.0,
       "impressions": 172246,
@@ -250,6 +262,18 @@
       "media": 69,
       "creative": 49.0,
       "effectiveness": 63.0
+   },
+   {
+      "campaign_id": "f9bedbbf3c17d",
+      "campaign_name": "Crypto Analysis",
+      "date": "2023-08-02",
+      "views": 5812.158173405497,
+      "impressions": 7126,
+      "cpm": 75.66278417064272,
+      "clicks": 169,
+      "media": 46,
+      "creative": 72.81947745702855,
+      "effectiveness": 60.368764855662846
    },
    {
       "campaign_id": "f9bedbbf3c17d",
