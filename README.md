@@ -99,13 +99,17 @@ Endpoints
         ]
 
 Notes
+
 -Make sure to use the correct database credentials and secret key.
+
 -If you encounter issues, check the logs for errors and ensure all environment variables are correctly set.
 
 Contributing
+
 Feel free to contribute to this project by submitting issues or pull requests. For any questions or feedback, open an issue in this repository.
 
 License
+
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
 This README.md provides clear instructions for setting up, running, and using your FastAPI application. It includes steps for both local development and Docker-based deployment, as well as details about the API endpoints and configuration.
